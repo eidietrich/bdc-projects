@@ -48,11 +48,11 @@
       stroke-width: 1;
       stroke: #222;
       opacity: 0.8;
-      display: none;
+      /*display: none;*/
     }
-    text {
+    /*text {
       display: none;
-    }
+    }*/
 
   </style>
 </head>
@@ -176,11 +176,6 @@
         .call(yAxisLeft)
         .selectAll('text')
         .style('text-anchor', 'middle');
-
-      // svg.append('g')
-      //   .attr('class', 'axis y right')
-      //   .attr('transform', translation(pointB, 0))
-      //   .call(yAxisRight);
 
       svg.append('g')
         .attr('class', 'axis x left')
