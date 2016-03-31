@@ -52,7 +52,7 @@
 </head>
 <body>
   <div id="chart"></div>
-  <script src="d3.min.js" type="text/javascript"></script>
+  <script src="js/d3.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     // Adapted from http://jsbin.com/jalex/1/edit?js,output
     // SET UP DIMENSIONS
@@ -95,153 +95,161 @@
         {"bracket":"65 - 69","from_elsewhere_mt":43,"from_outside_mt":135,"to_elsewhere_mt":21,"to_outside_mt":133},
         {"bracket":"70 - 74","from_elsewhere_mt":25,"from_outside_mt":92,"to_elsewhere_mt":25,"to_outside_mt":11},
         {"bracket":"75+","from_elsewhere_mt":74,"from_outside_mt":122,"to_elsewhere_mt":60,"to_outside_mt":68}
+        ],
+        "alternative" : [
+        {"bracket":"1 - 4","from_elsewhere_mt":84,"from_outside_mt":277,"to_elsewhere_mt":86,"to_outside_mt":159},
+        {"bracket":"5 - 17","from_elsewhere_mt":243,"from_outside_mt":429,"to_elsewhere_mt":137,"to_outside_mt":345},
+        {"bracket":"18 & 19","from_elsewhere_mt":1144,"from_outside_mt":1459,"to_elsewhere_mt":146,"to_outside_mt":318},
+        {"bracket":"20 - 24","from_elsewhere_mt":1150,"from_outside_mt":1052,"to_elsewhere_mt":663,"to_outside_mt":1149},
+        {"bracket":"25 - 29","from_elsewhere_mt":483,"from_outside_mt":583,"to_elsewhere_mt":196,"to_outside_mt":813},
+        {"bracket":"30 - 34","from_elsewhere_mt":256,"from_outside_mt":357,"to_elsewhere_mt":151,"to_outside_mt":396},
+        {"bracket":"35 - 39","from_elsewhere_mt":176,"from_outside_mt":311,"to_elsewhere_mt":70,"to_outside_mt":237},
+        {"bracket":"40 - 44","from_elsewhere_mt":87,"from_outside_mt":245,"to_elsewhere_mt":34,"to_outside_mt":181},
+        {"bracket":"45 - 49","from_elsewhere_mt":87,"from_outside_mt":171,"to_elsewhere_mt":59,"to_outside_mt":126},
+        {"bracket":"50 - 54","from_elsewhere_mt":67,"from_outside_mt":192,"to_elsewhere_mt":47,"to_outside_mt":72},
+        {"bracket":"55 - 59","from_elsewhere_mt":86,"from_outside_mt":213,"to_elsewhere_mt":54,"to_outside_mt":172},
+        {"bracket":"60 - 64","from_elsewhere_mt":26,"from_outside_mt":233,"to_elsewhere_mt":64,"to_outside_mt":59},
+        {"bracket":"65 - 69","from_elsewhere_mt":43,"from_outside_mt":135,"to_elsewhere_mt":21,"to_outside_mt":133},
+        {"bracket":"70 - 74","from_elsewhere_mt":25,"from_outside_mt":92,"to_elsewhere_mt":25,"to_outside_mt":11},
+        {"bracket":"75+","from_elsewhere_mt":74,"from_outside_mt":122,"to_elsewhere_mt":60,"to_outside_mt":68}
         ]
       };
 
-      drawPyramid('#chart', migrationData.bozeman);
-
-      function drawPyramid (element, data) {
-        return null;
-      }
-
-        
-      // CREATE SVG
-      var svg = d3.select('#chart').append('svg')
-        .attr('width', margin.left + w + margin.right)
-        .attr('height', margin.top + h + margin.bottom)
-        // ADD A GROUP FOR THE SPACE WITHIN THE MARGINS
-        .append('g')
-          .attr('transform', translation(margin.left, margin.top));
-
-
       // find the maximum data value on either side
       //  since this will be shared by both of the x-axes
+      // TODO: Change this so it finds max for every city in the dataset
       var maxValue = Math.max(
         d3.max(migrationData.bozeman, function(d) { return d.from_elsewhere_mt + d.from_outside_mt; }),
         d3.max(migrationData.bozeman, function(d) { return d.to_elsewhere_mt + d.to_outside_mt; })
       );
 
-      // SET UP SCALES
-        
-      // the xScale goes from 0 to the width of a region
-      //  it will be reversed for the left x-axis
-      var xScale = d3.scale.linear()
-        .domain([0, maxValue])
-        .range([0, regionWidth])
-        .nice();
+      drawPyramid('#chart', migrationData.bozeman);
 
-      var xScaleLeft = d3.scale.linear()
-        .domain([0, maxValue])
-        .range([regionWidth, 0]);
+      
 
-      var xScaleRight = d3.scale.linear()
-        .domain([0, maxValue])
-        .range([0, regionWidth]);
+      function drawPyramid (element, data) {
+        var svg = d3.select('#chart').append('svg')
+        .attr('width', margin.left + w + margin.right)
+        .attr('height', margin.top + h + margin.bottom)
+        .append('g')
+          .attr('transform', translation(margin.left, margin.top));
 
-      var yScale = d3.scale.ordinal()
-        .domain(migrationData.bozeman.map(function(d) { return d.bracket; }))
-        .rangeRoundBands([h,0], 0.1);
+        // SET UP SCALES
+        // the xScale goes from 0 to the width of a region
+        //  it will be reversed for the left x-axis
+        var xScale = d3.scale.linear()
+          .domain([0, maxValue])
+          .range([0, regionWidth])
+          .nice();
 
+        var xScaleLeft = d3.scale.linear()
+          .domain([0, maxValue])
+          .range([regionWidth, 0]);
 
-      // SET UP AXES
-      var yAxisLeft = d3.svg.axis()
-        .scale(yScale)
-        .orient('right')
-        .tickSize(4,0)
-        .tickPadding(margin.middle-4);
+        var xScaleRight = d3.scale.linear()
+          .domain([0, maxValue])
+          .range([0, regionWidth]);
 
-      var yAxisRight = d3.svg.axis()
-        .scale(yScale)
-        .orient('left')
-        .tickSize(4,0)
-        .tickFormat('');
+        var yScale = d3.scale.ordinal()
+          .domain(data.map(function(d) { return d.bracket; }))
+          .rangeRoundBands([h,0], 0.1);
 
-      var xAxisRight = d3.svg.axis()
-        .scale(xScale)
-        .orient('bottom')
-        .innerTickSize(h + 15)
-        .ticks(5);
-        // .tickFormat(d3.format('%'));
+        // SET UP AXES
+        var yAxisLeft = d3.svg.axis()
+          .scale(yScale)
+          .orient('right')
+          .tickSize(4,0)
+          .tickPadding(margin.middle-4);
 
-      var xAxisLeft = d3.svg.axis()
-        // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
-        .scale(xScale.copy().range([pointA, 0]))
-        .orient('bottom')
-        .innerTickSize(h + 15)
-        .ticks(5);
-        // .tickFormat(d3.format('%'));
+        var yAxisRight = d3.svg.axis()
+          .scale(yScale)
+          .orient('left')
+          .tickSize(4,0)
+          .tickFormat('');
 
-      // DRAW AXES
-      svg.append('g')
-        .attr('class', 'axis y left')
-        .attr('transform', translation(pointA, 0))
-        .call(yAxisLeft)
-        .selectAll('text')
-        .style('text-anchor', 'middle');
+        var xAxisRight = d3.svg.axis()
+          .scale(xScale)
+          .orient('bottom')
+          .innerTickSize(h + 15)
+          .ticks(5);
+          // .tickFormat(d3.format('%'));
 
-      // svg.append('g')
-      //   .attr('class', 'axis y right')
-      //   .attr('transform', translation(pointB, 0))
-      //   .call(yAxisRight);
+        var xAxisLeft = d3.svg.axis()
+          // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
+          .scale(xScale.copy().range([pointA, 0]))
+          .orient('bottom')
+          .innerTickSize(h + 15)
+          .ticks(5);
+          // .tickFormat(d3.format('%'));
 
-      svg.append('g')
+        // DRAW AXES
+        svg.append('g')
+          .attr('class', 'axis y left')
+          .attr('transform', translation(pointA, 0))
+          .call(yAxisLeft)
+          .selectAll('text')
+          .style('text-anchor', 'middle');
+
+        svg.append('g')
         .attr('class', 'axis x left')
         .attr('transform', translation(0, -20))
         .call(xAxisLeft);
 
-      svg.append('g')
-        .attr('class', 'axis x right')
-        .attr('transform', translation(pointB, -20))
-        .call(xAxisRight);
+        svg.append('g')
+          .attr('class', 'axis x right')
+          .attr('transform', translation(pointB, -20))
+          .call(xAxisRight);
 
-      // MAKE GROUPS FOR EACH SIDE OF CHART & EACH FLOW
-      // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
-      var leftBarGroup = svg.append('g')
-        .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
-      var leftBarMtGroup = leftBarGroup.append('g');
-      var leftBarOthGroup = leftBarGroup.append('g');
+        // MAKE GROUPS FOR EACH SIDE OF CHART & EACH FLOW
+        // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
+        var leftBarGroup = svg.append('g')
+          .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
+        var leftBarMtGroup = leftBarGroup.append('g');
+        var leftBarOthGroup = leftBarGroup.append('g');
 
-      var rightBarGroup = svg.append('g')
-        .attr('transform', translation(pointB, 0));
-      var rightBarMtGroup = rightBarGroup.append('g');
-      var rightBarOthGroup = rightBarGroup.append('g');
+        var rightBarGroup = svg.append('g')
+          .attr('transform', translation(pointB, 0));
+        var rightBarMtGroup = rightBarGroup.append('g');
+        var rightBarOthGroup = rightBarGroup.append('g');
 
-      // DRAW BARS
-      leftBarMtGroup.selectAll('.bar.left')
-        .data(migrationData.bozeman)
-        .enter().append('rect')
-          .attr('class', 'bar inflow-mt')
-          .attr('x', 0)
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.from_elsewhere_mt); })
-          .attr('height', yScale.rangeBand());
+        // DRAW BARS
+        leftBarMtGroup.selectAll('.bar.left')
+          .data(data)
+          .enter().append('rect')
+            .attr('class', 'bar inflow-mt')
+            .attr('x', 0)
+            .attr('y', function(d) {return yScale(d.bracket); })
+            .attr('width', function(d) {return xScale(d.from_elsewhere_mt); })
+            .attr('height', yScale.rangeBand());
 
-      leftBarOthGroup.selectAll('.bar.left')
-        .data(migrationData.bozeman)
-        .enter().append('rect')
-          .attr('class', 'bar inflow-not-mt')
-          .attr('x', function(d) { return xScale(d.from_elsewhere_mt); })
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.from_outside_mt); })
-          .attr('height', yScale.rangeBand());
+        leftBarOthGroup.selectAll('.bar.left')
+          .data(data)
+          .enter().append('rect')
+            .attr('class', 'bar inflow-not-mt')
+            .attr('x', function(d) { return xScale(d.from_elsewhere_mt); })
+            .attr('y', function(d) { return yScale(d.bracket); })
+            .attr('width', function(d) { return xScale(d.from_outside_mt); })
+            .attr('height', yScale.rangeBand());
 
-      rightBarMtGroup.selectAll('.bar.right')
-        .data(migrationData.bozeman)
-        .enter().append('rect')
-          .attr('class', 'bar outflow-mt')
-          .attr('x', 0)
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.to_elsewhere_mt); })
-          .attr('height', yScale.rangeBand());
+        rightBarMtGroup.selectAll('.bar.right')
+          .data(data)
+          .enter().append('rect')
+            .attr('class', 'bar outflow-mt')
+            .attr('x', 0)
+            .attr('y', function(d) { return yScale(d.bracket); })
+            .attr('width', function(d) { return xScale(d.to_elsewhere_mt); })
+            .attr('height', yScale.rangeBand());
 
-      rightBarOthGroup.selectAll('.bar.right')
-        .data(migrationData.bozeman)
-        .enter().append('rect')
-          .attr('class', 'bar outflow-not-mt')
-          .attr('x', function(d) { return xScale(d.to_elsewhere_mt); })
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.to_outside_mt); })
-          .attr('height', yScale.rangeBand());
+        rightBarOthGroup.selectAll('.bar.right')
+          .data(data)
+          .enter().append('rect')
+            .attr('class', 'bar outflow-not-mt')
+            .attr('x', function(d) { return xScale(d.to_elsewhere_mt); })
+            .attr('y', function(d) { return yScale(d.bracket); })
+            .attr('width', function(d) { return xScale(d.to_outside_mt); })
+            .attr('height', yScale.rangeBand());
+      }
+
 
       // // DRAW TITLE AND ANNOTATIONS
       // d3.select('#chart').append('div')
