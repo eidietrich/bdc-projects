@@ -51,7 +51,9 @@
   </style>
 </head>
 <body>
-  <div id="chart"></div>
+  <div id="graphic">
+  </div>
+  
   <script src="js/d3.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     // Adapted from http://jsbin.com/jalex/1/edit?js,output
@@ -61,9 +63,9 @@
           
       // margin.middle is distance from center line to each y-axis
       var margin = {
-        top: 75,
+        top: 20,
         right: 20,
-        bottom: 24,
+        bottom: 20,
         left: 20,
         middle: 24
       };
@@ -79,56 +81,103 @@
       // Sourced from 2010-2014 American Community Survey 5-Year Estimates
       // Tables B07001 & B07401 for Gallatin County, Montana
       var migrationData = {
-        "bozeman" : [
-        {"bracket":"1 - 4","from_elsewhere_mt":84,"from_outside_mt":277,"to_elsewhere_mt":86,"to_outside_mt":159},
-        {"bracket":"5 - 17","from_elsewhere_mt":243,"from_outside_mt":429,"to_elsewhere_mt":137,"to_outside_mt":345},
-        {"bracket":"18 & 19","from_elsewhere_mt":1144,"from_outside_mt":1459,"to_elsewhere_mt":146,"to_outside_mt":318},
-        {"bracket":"20 - 24","from_elsewhere_mt":1150,"from_outside_mt":1052,"to_elsewhere_mt":663,"to_outside_mt":1149},
-        {"bracket":"25 - 29","from_elsewhere_mt":483,"from_outside_mt":583,"to_elsewhere_mt":196,"to_outside_mt":813},
-        {"bracket":"30 - 34","from_elsewhere_mt":256,"from_outside_mt":357,"to_elsewhere_mt":151,"to_outside_mt":396},
-        {"bracket":"35 - 39","from_elsewhere_mt":176,"from_outside_mt":311,"to_elsewhere_mt":70,"to_outside_mt":237},
-        {"bracket":"40 - 44","from_elsewhere_mt":87,"from_outside_mt":245,"to_elsewhere_mt":34,"to_outside_mt":181},
-        {"bracket":"45 - 49","from_elsewhere_mt":87,"from_outside_mt":171,"to_elsewhere_mt":59,"to_outside_mt":126},
-        {"bracket":"50 - 54","from_elsewhere_mt":67,"from_outside_mt":192,"to_elsewhere_mt":47,"to_outside_mt":72},
-        {"bracket":"55 - 59","from_elsewhere_mt":86,"from_outside_mt":213,"to_elsewhere_mt":54,"to_outside_mt":172},
-        {"bracket":"60 - 64","from_elsewhere_mt":26,"from_outside_mt":233,"to_elsewhere_mt":64,"to_outside_mt":59},
-        {"bracket":"65 - 69","from_elsewhere_mt":43,"from_outside_mt":135,"to_elsewhere_mt":21,"to_outside_mt":133},
-        {"bracket":"70 - 74","from_elsewhere_mt":25,"from_outside_mt":92,"to_elsewhere_mt":25,"to_outside_mt":11},
-        {"bracket":"75+","from_elsewhere_mt":74,"from_outside_mt":122,"to_elsewhere_mt":60,"to_outside_mt":68}
-        ],
-        "alternative" : [
-        {"bracket":"1 - 4","from_elsewhere_mt":84,"from_outside_mt":277,"to_elsewhere_mt":86,"to_outside_mt":159},
-        {"bracket":"5 - 17","from_elsewhere_mt":243,"from_outside_mt":429,"to_elsewhere_mt":137,"to_outside_mt":345},
-        {"bracket":"18 & 19","from_elsewhere_mt":1144,"from_outside_mt":1459,"to_elsewhere_mt":146,"to_outside_mt":318},
-        {"bracket":"20 - 24","from_elsewhere_mt":1150,"from_outside_mt":1052,"to_elsewhere_mt":663,"to_outside_mt":1149},
-        {"bracket":"25 - 29","from_elsewhere_mt":483,"from_outside_mt":583,"to_elsewhere_mt":196,"to_outside_mt":813},
-        {"bracket":"30 - 34","from_elsewhere_mt":256,"from_outside_mt":357,"to_elsewhere_mt":151,"to_outside_mt":396},
-        {"bracket":"35 - 39","from_elsewhere_mt":176,"from_outside_mt":311,"to_elsewhere_mt":70,"to_outside_mt":237},
-        {"bracket":"40 - 44","from_elsewhere_mt":87,"from_outside_mt":245,"to_elsewhere_mt":34,"to_outside_mt":181},
-        {"bracket":"45 - 49","from_elsewhere_mt":87,"from_outside_mt":171,"to_elsewhere_mt":59,"to_outside_mt":126},
-        {"bracket":"50 - 54","from_elsewhere_mt":67,"from_outside_mt":192,"to_elsewhere_mt":47,"to_outside_mt":72},
-        {"bracket":"55 - 59","from_elsewhere_mt":86,"from_outside_mt":213,"to_elsewhere_mt":54,"to_outside_mt":172},
-        {"bracket":"60 - 64","from_elsewhere_mt":26,"from_outside_mt":233,"to_elsewhere_mt":64,"to_outside_mt":59},
-        {"bracket":"65 - 69","from_elsewhere_mt":43,"from_outside_mt":135,"to_elsewhere_mt":21,"to_outside_mt":133},
-        {"bracket":"70 - 74","from_elsewhere_mt":25,"from_outside_mt":92,"to_elsewhere_mt":25,"to_outside_mt":11},
-        {"bracket":"75+","from_elsewhere_mt":74,"from_outside_mt":122,"to_elsewhere_mt":60,"to_outside_mt":68}
-        ]
+        "bozeman": {
+          "title": "Gallatin County, Montana",
+          "label": "this is where Bozeman is",
+          "brackets": [
+            {"bracket":"1 - 4","from_in_state":84,"from_out_state":277,"to_in_state":86,"to_out_state":159},
+            {"bracket":"5 - 17","from_in_state":243,"from_out_state":429,"to_in_state":137,"to_out_state":345},
+            {"bracket":"18 & 19","from_in_state":1144,"from_out_state":1459,"to_in_state":146,"to_out_state":318},
+            {"bracket":"20 - 24","from_in_state":1150,"from_out_state":1052,"to_in_state":663,"to_out_state":1149},
+            {"bracket":"25 - 29","from_in_state":483,"from_out_state":583,"to_in_state":196,"to_out_state":813},
+            {"bracket":"30 - 34","from_in_state":256,"from_out_state":357,"to_in_state":151,"to_out_state":396},
+            {"bracket":"35 - 39","from_in_state":176,"from_out_state":311,"to_in_state":70,"to_out_state":237},
+            {"bracket":"40 - 44","from_in_state":87,"from_out_state":245,"to_in_state":34,"to_out_state":181},
+            {"bracket":"45 - 49","from_in_state":87,"from_out_state":171,"to_in_state":59,"to_out_state":126},
+            {"bracket":"50 - 54","from_in_state":67,"from_out_state":192,"to_in_state":47,"to_out_state":72},
+            {"bracket":"55 - 59","from_in_state":86,"from_out_state":213,"to_in_state":54,"to_out_state":172},
+            {"bracket":"60 - 64","from_in_state":26,"from_out_state":233,"to_in_state":64,"to_out_state":59},
+            {"bracket":"65 - 69","from_in_state":43,"from_out_state":135,"to_in_state":21,"to_out_state":133},
+            {"bracket":"70 - 74","from_in_state":25,"from_out_state":92,"to_in_state":25,"to_out_state":11},
+            {"bracket":"75+","from_in_state":74,"from_out_state":122,"to_in_state":60,"to_out_state":68}
+            ]
+          },
+        "alternative": {
+          "title": "Alternative County, Montana",
+          "label": "this is the same data as Bozeman",
+          "brackets": [
+            {"bracket":"1 - 4","from_in_state":84,"from_out_state":277,"to_in_state":86,"to_out_state":159},
+            {"bracket":"5 - 17","from_in_state":243,"from_out_state":429,"to_in_state":137,"to_out_state":345},
+            {"bracket":"18 & 19","from_in_state":1144,"from_out_state":1459,"to_in_state":146,"to_out_state":318},
+            {"bracket":"20 - 24","from_in_state":1150,"from_out_state":1052,"to_in_state":663,"to_out_state":1149},
+            {"bracket":"25 - 29","from_in_state":483,"from_out_state":583,"to_in_state":196,"to_out_state":813},
+            {"bracket":"30 - 34","from_in_state":256,"from_out_state":357,"to_in_state":151,"to_out_state":396},
+            {"bracket":"35 - 39","from_in_state":176,"from_out_state":311,"to_in_state":70,"to_out_state":237},
+            {"bracket":"40 - 44","from_in_state":87,"from_out_state":245,"to_in_state":34,"to_out_state":181},
+            {"bracket":"45 - 49","from_in_state":87,"from_out_state":171,"to_in_state":59,"to_out_state":126},
+            {"bracket":"50 - 54","from_in_state":67,"from_out_state":192,"to_in_state":47,"to_out_state":72},
+            {"bracket":"55 - 59","from_in_state":86,"from_out_state":213,"to_in_state":54,"to_out_state":172},
+            {"bracket":"60 - 64","from_in_state":26,"from_out_state":233,"to_in_state":64,"to_out_state":59},
+            {"bracket":"65 - 69","from_in_state":43,"from_out_state":135,"to_in_state":21,"to_out_state":133},
+            {"bracket":"70 - 74","from_in_state":25,"from_out_state":92,"to_in_state":25,"to_out_state":11},
+            {"bracket":"75+","from_in_state":74,"from_out_state":122,"to_in_state":60,"to_out_state":68}
+            ]
+          }
       };
 
       // find the maximum data value on either side
       //  since this will be shared by both of the x-axes
       // TODO: Change this so it finds max for every city in the dataset
-      var maxValue = Math.max(
-        d3.max(migrationData.bozeman, function(d) { return d.from_elsewhere_mt + d.from_outside_mt; }),
-        d3.max(migrationData.bozeman, function(d) { return d.to_elsewhere_mt + d.to_outside_mt; })
-      );
+      // var maxValue = Math.max(
+      //   d3.max(migrationData.bozeman.brackets, function(d) { return d.from_in_state + d.from_out_state; }),
+      //   d3.max(migrationData.bozeman.brackets, function(d) { return d.to_in_state + d.to_out_state; })
+      // );
 
-      drawPyramid('#chart', migrationData.bozeman);
 
+      maxValue = findMaxValue(migrationData);
+      console.log(maxValue);
+
+      populateCounties(migrationData);
+
+
+
+      // drawPyramid('#bozeman', migrationData.bozeman);
+      // drawPyramid('#alternative', migrationData.alternative);
+
+      // Loops through migrationData, adding a container and drawing a graphic for each
+      function populateCounties(counties){
+        for (var key in counties) {
+          d3.select("#graphic").append("div")
+            .attr("id", key);
+          drawPyramid('#' + key, migrationData[key]);
+        }
+      }
+
+      // takes county array and returns max value for left and right sides of columns
+      function findMaxValue (counties) {
+        arrayMax = 0;
+        for (var key in counties) {
+          itemMax = Math.max(
+            d3.max(counties[key].brackets, function(d) { return d.from_in_state + d.from_out_state; }),
+            d3.max(counties[key].brackets, function(d) { return d.to_in_state + d.to_out_state; })
+          );
+        }
+        if (arrayMax < itemMax) arrayMax = itemMax;
+        return arrayMax;
+        
+      }
       
 
       function drawPyramid (element, data) {
-        var svg = d3.select('#chart').append('svg')
+        var bracketData = data.brackets;
+
+        // Add titles and label to chart element
+        d3.select(element).append('h2')
+          .text(data.title);
+        d3.select(element).append('p')
+          .text(data.label);
+
+        var svg = d3.select(element).append('svg')
         .attr('width', margin.left + w + margin.right)
         .attr('height', margin.top + h + margin.bottom)
         .append('g')
@@ -151,7 +200,7 @@
           .range([0, regionWidth]);
 
         var yScale = d3.scale.ordinal()
-          .domain(data.map(function(d) { return d.bracket; }))
+          .domain(bracketData.map(function(d) { return d.bracket; }))
           .rangeRoundBands([h,0], 0.1);
 
         // SET UP AXES
@@ -214,39 +263,39 @@
 
         // DRAW BARS
         leftBarMtGroup.selectAll('.bar.left')
-          .data(data)
+          .data(bracketData)
           .enter().append('rect')
             .attr('class', 'bar inflow-mt')
             .attr('x', 0)
             .attr('y', function(d) {return yScale(d.bracket); })
-            .attr('width', function(d) {return xScale(d.from_elsewhere_mt); })
+            .attr('width', function(d) {return xScale(d.from_in_state); })
             .attr('height', yScale.rangeBand());
 
         leftBarOthGroup.selectAll('.bar.left')
-          .data(data)
+          .data(bracketData)
           .enter().append('rect')
             .attr('class', 'bar inflow-not-mt')
-            .attr('x', function(d) { return xScale(d.from_elsewhere_mt); })
+            .attr('x', function(d) { return xScale(d.from_in_state); })
             .attr('y', function(d) { return yScale(d.bracket); })
-            .attr('width', function(d) { return xScale(d.from_outside_mt); })
+            .attr('width', function(d) { return xScale(d.from_out_state); })
             .attr('height', yScale.rangeBand());
 
         rightBarMtGroup.selectAll('.bar.right')
-          .data(data)
+          .data(bracketData)
           .enter().append('rect')
             .attr('class', 'bar outflow-mt')
             .attr('x', 0)
             .attr('y', function(d) { return yScale(d.bracket); })
-            .attr('width', function(d) { return xScale(d.to_elsewhere_mt); })
+            .attr('width', function(d) { return xScale(d.to_in_state); })
             .attr('height', yScale.rangeBand());
 
         rightBarOthGroup.selectAll('.bar.right')
-          .data(data)
+          .data(bracketData)
           .enter().append('rect')
             .attr('class', 'bar outflow-not-mt')
-            .attr('x', function(d) { return xScale(d.to_elsewhere_mt); })
+            .attr('x', function(d) { return xScale(d.to_in_state); })
             .attr('y', function(d) { return yScale(d.bracket); })
-            .attr('width', function(d) { return xScale(d.to_outside_mt); })
+            .attr('width', function(d) { return xScale(d.to_out_state); })
             .attr('height', yScale.rangeBand());
       }
 
