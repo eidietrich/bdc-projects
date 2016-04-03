@@ -2,7 +2,7 @@
 """
 acs-migration-data-parser.py
 ---
-Script for parsing census data stored in flat .csv to json for d3.js visualization.
+Script for parsing census data stored in flat .csv to .json for d3.js visualization.
 
 Input format:
 Variables in columns, geographies (counties) in rows.
@@ -66,14 +66,16 @@ with open(inflow_data_path, 'rb') as f:
         if row['GEO.id2'] in include_geos:
             inflow_data.append(row)
 
-# Collect key
+# Collect inflow key
 inflow_key = []
 with open(inflow_key_path, 'rb') as f:
     reader = csv.reader(f)
     for row in reader:
         inflow_key.append(row)
 
-# NEW (#TODO):
+# TODO: set this up so it also pulls in outflow data
+
+# NEW:
 # Populates output_text with json-formatted string 
 # Logic: loops through include_geos list, for each
 # matching to row in inflow_data and
@@ -99,6 +101,8 @@ for i, geoid in enumerate(include_geos):
         output_text += '{"bracket":"' + row[0] + '",'
         output_text += '"from_in_state":' + str(from_in_state) + ','
         output_text += '"from_out_state":' + str(from_out_state) + ''
+        
+        # Add trailing comma unless on last row
         if (index < len(inflow_key[2:]) - 1):
             output_text += '},\n'
         else:
