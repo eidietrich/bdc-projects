@@ -1,0 +1,134 @@
+{
+"county_0": { 
+"title": "Cascade County, Montana",
+"fips": "30013",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":119,"from_out_state":363},
+{"bracket":"5 - 17","from_in_state":236,"from_out_state":627},
+{"bracket":"18 & 19","from_in_state":93,"from_out_state":205},
+{"bracket":"20 - 24","from_in_state":318,"from_out_state":657},
+{"bracket":"25 - 29","from_in_state":262,"from_out_state":702},
+{"bracket":"30 - 34","from_in_state":369,"from_out_state":459},
+{"bracket":"35 - 39","from_in_state":130,"from_out_state":161},
+{"bracket":"40 - 44","from_in_state":54,"from_out_state":293},
+{"bracket":"45 - 49","from_in_state":90,"from_out_state":157},
+{"bracket":"50 - 54","from_in_state":83,"from_out_state":141},
+{"bracket":"55 - 59","from_in_state":74,"from_out_state":68},
+{"bracket":"60 - 64","from_in_state":32,"from_out_state":110},
+{"bracket":"65 - 69","from_in_state":44,"from_out_state":82},
+{"bracket":"70 - 74","from_in_state":17,"from_out_state":43},
+{"bracket":"75+","from_in_state":49,"from_out_state":42}
+]
+},
+"county_1": { 
+"title": "Flathead County, Montana",
+"fips": "30029",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":33,"from_out_state":204},
+{"bracket":"5 - 17","from_in_state":205,"from_out_state":425},
+{"bracket":"18 & 19","from_in_state":111,"from_out_state":137},
+{"bracket":"20 - 24","from_in_state":142,"from_out_state":571},
+{"bracket":"25 - 29","from_in_state":155,"from_out_state":286},
+{"bracket":"30 - 34","from_in_state":19,"from_out_state":248},
+{"bracket":"35 - 39","from_in_state":32,"from_out_state":113},
+{"bracket":"40 - 44","from_in_state":30,"from_out_state":248},
+{"bracket":"45 - 49","from_in_state":35,"from_out_state":330},
+{"bracket":"50 - 54","from_in_state":52,"from_out_state":333},
+{"bracket":"55 - 59","from_in_state":23,"from_out_state":206},
+{"bracket":"60 - 64","from_in_state":42,"from_out_state":160},
+{"bracket":"65 - 69","from_in_state":47,"from_out_state":186},
+{"bracket":"70 - 74","from_in_state":18,"from_out_state":21},
+{"bracket":"75+","from_in_state":74,"from_out_state":177}
+]
+},
+"county_2": { 
+"title": "Gallatin County, Montana",
+"fips": "30031",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":84,"from_out_state":277},
+{"bracket":"5 - 17","from_in_state":243,"from_out_state":429},
+{"bracket":"18 & 19","from_in_state":1144,"from_out_state":1459},
+{"bracket":"20 - 24","from_in_state":1150,"from_out_state":1052},
+{"bracket":"25 - 29","from_in_state":483,"from_out_state":583},
+{"bracket":"30 - 34","from_in_state":256,"from_out_state":357},
+{"bracket":"35 - 39","from_in_state":176,"from_out_state":311},
+{"bracket":"40 - 44","from_in_state":87,"from_out_state":245},
+{"bracket":"45 - 49","from_in_state":87,"from_out_state":171},
+{"bracket":"50 - 54","from_in_state":67,"from_out_state":192},
+{"bracket":"55 - 59","from_in_state":86,"from_out_state":213},
+{"bracket":"60 - 64","from_in_state":26,"from_out_state":233},
+{"bracket":"65 - 69","from_in_state":43,"from_out_state":135},
+{"bracket":"70 - 74","from_in_state":25,"from_out_state":92},
+{"bracket":"75+","from_in_state":74,"from_out_state":122}
+]
+},
+"county_3": { 
+"title": "Lewis and Clark County, Montana",
+"fips": "30049",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":146,"from_out_state":122},
+{"bracket":"5 - 17","from_in_state":334,"from_out_state":231},
+{"bracket":"18 & 19","from_in_state":220,"from_out_state":279},
+{"bracket":"20 - 24","from_in_state":378,"from_out_state":286},
+{"bracket":"25 - 29","from_in_state":293,"from_out_state":291},
+{"bracket":"30 - 34","from_in_state":169,"from_out_state":230},
+{"bracket":"35 - 39","from_in_state":91,"from_out_state":113},
+{"bracket":"40 - 44","from_in_state":118,"from_out_state":64},
+{"bracket":"45 - 49","from_in_state":63,"from_out_state":159},
+{"bracket":"50 - 54","from_in_state":49,"from_out_state":27},
+{"bracket":"55 - 59","from_in_state":115,"from_out_state":80},
+{"bracket":"60 - 64","from_in_state":43,"from_out_state":55},
+{"bracket":"65 - 69","from_in_state":34,"from_out_state":15},
+{"bracket":"70 - 74","from_in_state":30,"from_out_state":13},
+{"bracket":"75+","from_in_state":22,"from_out_state":74}
+]
+},
+"county_4": { 
+"title": "Missoula County, Montana",
+"fips": "30063",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":174,"from_out_state":246},
+{"bracket":"5 - 17","from_in_state":426,"from_out_state":538},
+{"bracket":"18 & 19","from_in_state":835,"from_out_state":713},
+{"bracket":"20 - 24","from_in_state":1049,"from_out_state":1350},
+{"bracket":"25 - 29","from_in_state":491,"from_out_state":928},
+{"bracket":"30 - 34","from_in_state":411,"from_out_state":417},
+{"bracket":"35 - 39","from_in_state":188,"from_out_state":177},
+{"bracket":"40 - 44","from_in_state":202,"from_out_state":118},
+{"bracket":"45 - 49","from_in_state":301,"from_out_state":195},
+{"bracket":"50 - 54","from_in_state":124,"from_out_state":242},
+{"bracket":"55 - 59","from_in_state":147,"from_out_state":220},
+{"bracket":"60 - 64","from_in_state":97,"from_out_state":117},
+{"bracket":"65 - 69","from_in_state":36,"from_out_state":49},
+{"bracket":"70 - 74","from_in_state":21,"from_out_state":24},
+{"bracket":"75+","from_in_state":155,"from_out_state":34}
+]
+},
+"county_5": { 
+"title": "Yellowstone County, Montana",
+"fips": "30111",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":251,"from_out_state":383},
+{"bracket":"5 - 17","from_in_state":710,"from_out_state":693},
+{"bracket":"18 & 19","from_in_state":575,"from_out_state":322},
+{"bracket":"20 - 24","from_in_state":917,"from_out_state":854},
+{"bracket":"25 - 29","from_in_state":382,"from_out_state":674},
+{"bracket":"30 - 34","from_in_state":387,"from_out_state":450},
+{"bracket":"35 - 39","from_in_state":300,"from_out_state":332},
+{"bracket":"40 - 44","from_in_state":492,"from_out_state":271},
+{"bracket":"45 - 49","from_in_state":193,"from_out_state":264},
+{"bracket":"50 - 54","from_in_state":186,"from_out_state":232},
+{"bracket":"55 - 59","from_in_state":211,"from_out_state":240},
+{"bracket":"60 - 64","from_in_state":103,"from_out_state":184},
+{"bracket":"65 - 69","from_in_state":124,"from_out_state":118},
+{"bracket":"70 - 74","from_in_state":25,"from_out_state":30},
+{"bracket":"75+","from_in_state":222,"from_out_state":159}
+]
+}
+}
