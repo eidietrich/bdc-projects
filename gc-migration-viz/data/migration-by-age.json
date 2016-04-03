@@ -1,49 +1,5 @@
 {
 "county_0": { 
-"title": "Cascade County, Montana",
-"fips": "30013",
-"label": "THIS IS FILLER",
-"brackets": [
-{"bracket":"1 - 4","from_in_state":119,"from_out_state":363},
-{"bracket":"5 - 17","from_in_state":236,"from_out_state":627},
-{"bracket":"18 & 19","from_in_state":93,"from_out_state":205},
-{"bracket":"20 - 24","from_in_state":318,"from_out_state":657},
-{"bracket":"25 - 29","from_in_state":262,"from_out_state":702},
-{"bracket":"30 - 34","from_in_state":369,"from_out_state":459},
-{"bracket":"35 - 39","from_in_state":130,"from_out_state":161},
-{"bracket":"40 - 44","from_in_state":54,"from_out_state":293},
-{"bracket":"45 - 49","from_in_state":90,"from_out_state":157},
-{"bracket":"50 - 54","from_in_state":83,"from_out_state":141},
-{"bracket":"55 - 59","from_in_state":74,"from_out_state":68},
-{"bracket":"60 - 64","from_in_state":32,"from_out_state":110},
-{"bracket":"65 - 69","from_in_state":44,"from_out_state":82},
-{"bracket":"70 - 74","from_in_state":17,"from_out_state":43},
-{"bracket":"75+","from_in_state":49,"from_out_state":42}
-]
-},
-"county_1": { 
-"title": "Flathead County, Montana",
-"fips": "30029",
-"label": "THIS IS FILLER",
-"brackets": [
-{"bracket":"1 - 4","from_in_state":33,"from_out_state":204},
-{"bracket":"5 - 17","from_in_state":205,"from_out_state":425},
-{"bracket":"18 & 19","from_in_state":111,"from_out_state":137},
-{"bracket":"20 - 24","from_in_state":142,"from_out_state":571},
-{"bracket":"25 - 29","from_in_state":155,"from_out_state":286},
-{"bracket":"30 - 34","from_in_state":19,"from_out_state":248},
-{"bracket":"35 - 39","from_in_state":32,"from_out_state":113},
-{"bracket":"40 - 44","from_in_state":30,"from_out_state":248},
-{"bracket":"45 - 49","from_in_state":35,"from_out_state":330},
-{"bracket":"50 - 54","from_in_state":52,"from_out_state":333},
-{"bracket":"55 - 59","from_in_state":23,"from_out_state":206},
-{"bracket":"60 - 64","from_in_state":42,"from_out_state":160},
-{"bracket":"65 - 69","from_in_state":47,"from_out_state":186},
-{"bracket":"70 - 74","from_in_state":18,"from_out_state":21},
-{"bracket":"75+","from_in_state":74,"from_out_state":177}
-]
-},
-"county_2": { 
 "title": "Gallatin County, Montana",
 "fips": "30031",
 "label": "THIS IS FILLER",
@@ -65,7 +21,7 @@
 {"bracket":"75+","from_in_state":74,"from_out_state":122}
 ]
 },
-"county_3": { 
+"county_1": { 
 "title": "Lewis and Clark County, Montana",
 "fips": "30049",
 "label": "THIS IS FILLER",
@@ -87,7 +43,29 @@
 {"bracket":"75+","from_in_state":22,"from_out_state":74}
 ]
 },
-"county_4": { 
+"county_2": { 
+"title": "Cascade County, Montana",
+"fips": "30013",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":119,"from_out_state":363},
+{"bracket":"5 - 17","from_in_state":236,"from_out_state":627},
+{"bracket":"18 & 19","from_in_state":93,"from_out_state":205},
+{"bracket":"20 - 24","from_in_state":318,"from_out_state":657},
+{"bracket":"25 - 29","from_in_state":262,"from_out_state":702},
+{"bracket":"30 - 34","from_in_state":369,"from_out_state":459},
+{"bracket":"35 - 39","from_in_state":130,"from_out_state":161},
+{"bracket":"40 - 44","from_in_state":54,"from_out_state":293},
+{"bracket":"45 - 49","from_in_state":90,"from_out_state":157},
+{"bracket":"50 - 54","from_in_state":83,"from_out_state":141},
+{"bracket":"55 - 59","from_in_state":74,"from_out_state":68},
+{"bracket":"60 - 64","from_in_state":32,"from_out_state":110},
+{"bracket":"65 - 69","from_in_state":44,"from_out_state":82},
+{"bracket":"70 - 74","from_in_state":17,"from_out_state":43},
+{"bracket":"75+","from_in_state":49,"from_out_state":42}
+]
+},
+"county_3": { 
 "title": "Missoula County, Montana",
 "fips": "30063",
 "label": "THIS IS FILLER",
@@ -109,7 +87,7 @@
 {"bracket":"75+","from_in_state":155,"from_out_state":34}
 ]
 },
-"county_5": { 
+"county_4": { 
 "title": "Yellowstone County, Montana",
 "fips": "30111",
 "label": "THIS IS FILLER",
@@ -129,6 +107,28 @@
 {"bracket":"65 - 69","from_in_state":124,"from_out_state":118},
 {"bracket":"70 - 74","from_in_state":25,"from_out_state":30},
 {"bracket":"75+","from_in_state":222,"from_out_state":159}
+]
+},
+"county_5": { 
+"title": "Flathead County, Montana",
+"fips": "30029",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","from_in_state":33,"from_out_state":204},
+{"bracket":"5 - 17","from_in_state":205,"from_out_state":425},
+{"bracket":"18 & 19","from_in_state":111,"from_out_state":137},
+{"bracket":"20 - 24","from_in_state":142,"from_out_state":571},
+{"bracket":"25 - 29","from_in_state":155,"from_out_state":286},
+{"bracket":"30 - 34","from_in_state":19,"from_out_state":248},
+{"bracket":"35 - 39","from_in_state":32,"from_out_state":113},
+{"bracket":"40 - 44","from_in_state":30,"from_out_state":248},
+{"bracket":"45 - 49","from_in_state":35,"from_out_state":330},
+{"bracket":"50 - 54","from_in_state":52,"from_out_state":333},
+{"bracket":"55 - 59","from_in_state":23,"from_out_state":206},
+{"bracket":"60 - 64","from_in_state":42,"from_out_state":160},
+{"bracket":"65 - 69","from_in_state":47,"from_out_state":186},
+{"bracket":"70 - 74","from_in_state":18,"from_out_state":21},
+{"bracket":"75+","from_in_state":74,"from_out_state":177}
 ]
 }
 }

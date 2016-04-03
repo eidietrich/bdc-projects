@@ -49,7 +49,6 @@ inflow_key_path = 'data/B07001-label-key.csv'
 processed_data_path = 'data/migration-by-age.json'
 
 # Geographies to include in analysis (MT counties currently)
-# TODO: Label these by corresponding county
 include_geos = ['30031', # Gallatin
                 '30049', # Lewis & Clark
                 '30013', # Cascade
@@ -74,14 +73,18 @@ with open(inflow_key_path, 'rb') as f:
     for row in reader:
         inflow_key.append(row)
 
-
+# NEW (#TODO):
 # Populates output_text with json-formatted string 
-# Logic: Loops through each county row in inflow_data,
-# for each 1) populating title/label fields in json-style and
-# 2) using values in inflow_key to pull out/add desired data elements
-# for each county
+# Logic: loops through include_geos list, for each
+# matching to row in inflow_data and
+# 1) 1) populating title/label fields in json-style and
+# 2) using values in inflow_key to pull out/add desired 
+# data elements for each county 
+
 output_text = "{\n"
-for i, county in enumerate(inflow_data):
+for i, geoid in enumerate(include_geos):
+    # Find county in inflow_data that matches current geoid
+    county = filter(lambda county: county['GEO.id2'] == geoid, inflow_data)[0]
 
     output_text += '"county_' + str(i) + '": { \n'
     output_text += '"title": "' + county['GEO.display-label'] + '",\n'
