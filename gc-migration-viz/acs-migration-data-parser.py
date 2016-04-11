@@ -95,15 +95,17 @@ for i, geoid in enumerate(include_geos):
     output_text += '"brackets": [\n'
     # slice excludes header and total rows
     for index, row in enumerate(inflow_key[2:]):
+        total_current_pop = county['HD01_' + row[1]]
         from_in_state = county['HD01_' + row[4]]
         from_out_state = int(county['HD01_' + row[5]]) + int(county['HD01_' + row[6]])
 
         output_text += '{"bracket":"' + row[0] + '",'
+        output_text += '"total_current_pop":' + str(total_current_pop) + ','
         output_text += '"from_in_state":' + str(from_in_state) + ','
         output_text += '"from_out_state":' + str(from_out_state) + ''
         
         # Add trailing comma unless on last row
-        if (index < len(inflow_key[2:]) - 1):
+        if (index < len(inflow_key[2:]) - 1)git:
             output_text += '},\n'
         else:
             output_text += '}\n'
