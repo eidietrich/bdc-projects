@@ -43,11 +43,6 @@ Total           VD01    VD18    VD34    VD50    VD66    VD82
 
 import csv
 
-inflow_data_path = 'data/MT_COUNTIES_ACS_14_5YR_B07001.csv'
-inflow_key_path = 'data/B07001-label-key.csv'
-
-processed_data_path = 'data/migration-by-age.json'
-
 # Geographies to include in analysis (MT counties currently)
 include_geos = ['30031', # Gallatin
                 '30049', # Lewis & Clark
@@ -56,6 +51,16 @@ include_geos = ['30031', # Gallatin
                 '30111', # Yellowstone
                 '30029'  # Flathead
                 ]
+
+# LOAD DATA & KEYS INTO MEMORY
+
+inflow_data_path = 'data/USA_COUNTIES_ACS_14_5YR_B07001.csv'
+inflow_key_path = 'data/B07001-label-key.csv'
+
+outflow_data_path = 'data/USA_COUNTIES_ACS_14_5YR_B07401.csv'
+outflow_key_path = 'data/B07001-label-key.csv'
+
+processed_data_path = 'data/migration-by-age.json'
 
 
 # Collect inflow data
@@ -73,9 +78,23 @@ with open(inflow_key_path, 'rb') as f:
     for row in reader:
         inflow_key.append(row)
 
-# TODO: set this up so it also pulls in outflow data
+# Collect outflow data
+outflow_data = []
+with open(outflow_data_path, 'rb') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        if row['GEO.id2'] in include_geos:
+            outflow_data.append(row)
 
-# NEW:
+# Collect outflow key
+outflow_key = []
+with open(outflow_key_path, 'rb') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        outflow_key.append(row)
+
+# POPULATE JSON-STYLED STRING WITH DATA OF INTEREST
+
 # Populates output_text with json-formatted string 
 # Logic: loops through include_geos list, for each
 # matching to row in inflow_data and
@@ -86,26 +105,33 @@ with open(inflow_key_path, 'rb') as f:
 output_text = "{\n"
 for i, geoid in enumerate(include_geos):
     # Find county in inflow_data that matches current geoid
-    county = filter(lambda county: county['GEO.id2'] == geoid, inflow_data)[0]
+    in_county = filter(lambda county: county['GEO.id2'] == geoid, inflow_data)[0]
+    out_county = filter(lambda county: county['GEO.id2'] == geoid, outflow_data)[0]
 
     output_text += '"county_' + str(i) + '": { \n'
-    output_text += '"title": "' + county['GEO.display-label'] + '",\n'
-    output_text += '"fips": "' + county['GEO.id2'] + '",\n'
+    output_text += '"title": "' + in_county['GEO.display-label'] + '",\n'
+    output_text += '"fips": "' + in_county['GEO.id2'] + '",\n'
     output_text += '"label": "THIS IS FILLER",\n'
     output_text += '"brackets": [\n'
     # slice excludes header and total rows
     for index, row in enumerate(inflow_key[2:]):
-        total_current_pop = county['HD01_' + row[1]]
-        from_in_state = county['HD01_' + row[4]]
-        from_out_state = int(county['HD01_' + row[5]]) + int(county['HD01_' + row[6]])
+        total_current_pop = in_county['HD01_' + row[1]]
+        from_in_state = in_county['HD01_' + row[4]]
+        from_out_state = int(in_county['HD01_' + row[5]]) + int(in_county['HD01_' + row[6]])
+        to_in_state = out_county['HD01_' + row[4]]
+        to_out_state = out_county['HD01_' + row[5]]
+        # row index refers to column in key file matching desired data value
 
         output_text += '{"bracket":"' + row[0] + '",'
-        output_text += '"total_current_pop":' + str(total_current_pop) + ','
+        output_text += '"tot_pop":' + str(total_current_pop) + ','
         output_text += '"from_in_state":' + str(from_in_state) + ','
-        output_text += '"from_out_state":' + str(from_out_state) + ''
-        
+        output_text += '"from_out_state":' + str(from_out_state) + ','
+        output_text += '"to_in_state":' + str(to_in_state) + ','
+        output_text += '"to_out_state":' + str(to_out_state) + ''
+
+
         # Add trailing comma unless on last row
-        if (index < len(inflow_key[2:]) - 1)git:
+        if (index < len(inflow_key[2:]) - 1):
             output_text += '},\n'
         else:
             output_text += '}\n'
@@ -114,8 +140,9 @@ for i, geoid in enumerate(include_geos):
 # -1 cuts off trailing comma and final \n, add final bracket
 output_text = output_text[:-2] + '\n}'
 
-print output_text
+# OUTPUT RESULT
 
+# print output_text
 with open(processed_data_path, 'wb') as f:
     f.write(output_text)
 
