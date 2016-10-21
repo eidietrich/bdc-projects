@@ -6,31 +6,36 @@
     text {
       font: 12px "Helvetica Neue", Helvetica, sans-serif;
     }
-    .axis.x path,
-    .axis.x line {
+    .axis path,
+    .axis line {
       fill: none;
       stroke: #ccc;
       shape-rendering: crispEdges;
     }
+    .line {
+      fill: none;
+      stroke-width: 3px;
+      opacity: 0.9;
+    }
+    .line.lot {
+      stroke: #ca0020;
+    }
+    .line.home {
+      stroke: #fd8d3c;
+    }
+
     .bar {
       opacity: 0.9;
     }
-    .inflow-mt {
-      fill: #2c7bb6;
+    .bar.bzn {
+      fill: #3182bd;
+    }
+    .bar.gc {
+      fill: #fd8d3c;
     }
 
-    .inflow-not-mt {
-      fill: #abd9e9;
-    }
-    .outflow-mt {
-      fill: #d7191c;
-    }
-    .outflow-not-mt {
-      fill: #fdae61;
-    }
     p {
       font: 14px "Helvetica Neue", Helvetica, sans-serif;
-      display: none;
     }
     .title {
       font-size: 18px;
@@ -58,65 +63,53 @@
 </head>
 <body>
   <div id="chart"></div>
-  <script src="d3.min.js" type="text/javascript"></script>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script type="text/javascript">
     // Adapted from http://jsbin.com/jalex/1/edit?js,output
     // SET UP DIMENSIONS
       var w = 600,
-          h = 350;
-          
+          h = 500;
+      
+      var barWidth = 30;
+
       // margin.middle is distance from center line to each y-axis
       var margin = {
         top: 75,
-        right: 20,
+        right: 25,
         bottom: 24,
         left: 20,
-        middle: 24
+        middle: 30
       };
           
-      // the width of each side of the chart
-      var regionWidth = w/2 - margin.middle;
+      // the height of each pane of the chart
+      var regionHeight = h/2 - margin.middle;
 
-      // these are the x-coordinates of the y-axes
-      var pointA = regionWidth,
-          pointB = w - regionWidth;
+      // // these are the x-coordinates of the y-axes
+      // var pointA = regionWidth,
+      //     pointB = w - regionWidth;
 
-      // actual data
-      // Sourced from 2010-2014 American Community Survey 5-Year Estimates
-      // Tables B07001 & B07401 for Gallatin County, Montana
-      var migrationData = [
-        {"bracket":"1 - 4","from_elsewhere_mt":84,"from_outside_mt":277,"to_elsewhere_mt":86,"to_outside_mt":159},
-        {"bracket":"5 - 17","from_elsewhere_mt":243,"from_outside_mt":429,"to_elsewhere_mt":137,"to_outside_mt":345},
-        {"bracket":"18 & 19","from_elsewhere_mt":1144,"from_outside_mt":1459,"to_elsewhere_mt":146,"to_outside_mt":318},
-        {"bracket":"20 - 24","from_elsewhere_mt":1150,"from_outside_mt":1052,"to_elsewhere_mt":663,"to_outside_mt":1149},
-        {"bracket":"25 - 29","from_elsewhere_mt":483,"from_outside_mt":583,"to_elsewhere_mt":196,"to_outside_mt":813},
-        {"bracket":"30 - 34","from_elsewhere_mt":256,"from_outside_mt":357,"to_elsewhere_mt":151,"to_outside_mt":396},
-        {"bracket":"35 - 39","from_elsewhere_mt":176,"from_outside_mt":311,"to_elsewhere_mt":70,"to_outside_mt":237},
-        {"bracket":"40 - 44","from_elsewhere_mt":87,"from_outside_mt":245,"to_elsewhere_mt":34,"to_outside_mt":181},
-        {"bracket":"45 - 49","from_elsewhere_mt":87,"from_outside_mt":171,"to_elsewhere_mt":59,"to_outside_mt":126},
-        {"bracket":"50 - 54","from_elsewhere_mt":67,"from_outside_mt":192,"to_elsewhere_mt":47,"to_outside_mt":72},
-        {"bracket":"55 - 59","from_elsewhere_mt":86,"from_outside_mt":213,"to_elsewhere_mt":54,"to_outside_mt":172},
-        {"bracket":"60 - 64","from_elsewhere_mt":26,"from_outside_mt":233,"to_elsewhere_mt":64,"to_outside_mt":59},
-        {"bracket":"65 - 69","from_elsewhere_mt":43,"from_outside_mt":135,"to_elsewhere_mt":21,"to_outside_mt":133},
-        {"bracket":"70 - 74","from_elsewhere_mt":25,"from_outside_mt":92,"to_elsewhere_mt":25,"to_outside_mt":11},
-        {"bracket":"75+","from_elsewhere_mt":74,"from_outside_mt":122,"to_elsewhere_mt":60,"to_outside_mt":68}
-        ];
-
-      var devData = [{"year":2003,"gc_final_plat":null,"bzn_final_plat":null,"bzn_median_lot_price":62700,"bzn_median_home price":217000,"gc_median_lot_price":46500,"gc_median_home_price":189900},
-      {"year":2004,"gc_final_plat":null,"bzn_final_plat":null,"bzn_median_lot_price":69750,"bzn_median_home price":257500,"gc_median_lot_price":56500,"gc_median_home_price":230000},
-      {"year":2005,"gc_final_plat":null,"bzn_final_plat":null,"bzn_median_lot_price":95000,"bzn_median_home price":300000,"gc_median_lot_price":88500,"gc_median_home_price":270000},
-      {"year":2006,"gc_final_plat":519,"bzn_final_plat":1211,"bzn_median_lot_price":77950,"bzn_median_home price":340851,"gc_median_lot_price":79900,"gc_median_home_price":310000},
-      {"year":2007,"gc_final_plat":463,"bzn_final_plat":861,"bzn_median_lot_price":99000,"bzn_median_home price":327250,"gc_median_lot_price":97900,"gc_median_home_price":300000},
-      {"year":2008,"gc_final_plat":60,"bzn_final_plat":61,"bzn_median_lot_price":94900,"bzn_median_home price":308850,"gc_median_lot_price":94900,"gc_median_home_price":285850},
-      {"year":2009,"gc_final_plat":140,"bzn_final_plat":10,"bzn_median_lot_price":61000,"bzn_median_home price":270000,"gc_median_lot_price":65000,"gc_median_home_price":258225},
-      {"year":2010,"gc_final_plat":13,"bzn_final_plat":136,"bzn_median_lot_price":60000,"bzn_median_home price":262000,"gc_median_lot_price":60000,"gc_median_home_price":244000},
-      {"year":2011,"gc_final_plat":20,"bzn_final_plat":3,"bzn_median_lot_price":50000,"bzn_median_home price":252250,"gc_median_lot_price":52200,"gc_median_home_price":237500},
-      {"year":2012,"gc_final_plat":14,"bzn_final_plat":33,"bzn_median_lot_price":45300,"bzn_median_home price":278750,"gc_median_lot_price":49000,"gc_median_home_price":253750},
-      {"year":2013,"gc_final_plat":41,"bzn_final_plat":395,"bzn_median_lot_price":73950,"bzn_median_home price":300000,"gc_median_lot_price":70000,"gc_median_home_price":279500},
-      {"year":2014,"gc_final_plat":187,"bzn_final_plat":255,"bzn_median_lot_price":84900,"bzn_median_home price":325000,"gc_median_lot_price":84000,"gc_median_home_price":297250},
-      {"year":2015,"gc_final_plat":223,"bzn_final_plat":469,"bzn_median_lot_price":81450,"bzn_median_home price":362000,"gc_median_lot_price":84486,"gc_median_home_price":333000}]
+      pointA = regionHeight; // Left end of horizontal axis
 
 
+      var devData = [{"year":2003,"gc_final_plat":null,"bzn_final_plat":null,"gc_median_lot_price":46500,"gc_median_home_price":189900},
+      {"year":2004,"gc_final_plat":null,"bzn_final_plat":null,"gc_median_lot_price":56500,"gc_median_home_price":230000},
+      {"year":2005,"gc_final_plat":null,"bzn_final_plat":null,"gc_median_lot_price":88500,"gc_median_home_price":270000},
+      {"year":2006,"gc_final_plat":519,"bzn_final_plat":1211,"gc_median_lot_price":79900,"gc_median_home_price":310000},
+      {"year":2007,"gc_final_plat":463,"bzn_final_plat":861,"gc_median_lot_price":97900,"gc_median_home_price":300000},
+      {"year":2008,"gc_final_plat":60,"bzn_final_plat":61,"gc_median_lot_price":94900,"gc_median_home_price":285850},
+      {"year":2009,"gc_final_plat":140,"bzn_final_plat":10,"gc_median_lot_price":65000,"gc_median_home_price":258225},
+      {"year":2010,"gc_final_plat":13,"bzn_final_plat":136,"gc_median_lot_price":60000,"gc_median_home_price":244000},
+      {"year":2011,"gc_final_plat":20,"bzn_final_plat":3,"gc_median_lot_price":52200,"gc_median_home_price":237500},
+      {"year":2012,"gc_final_plat":14,"bzn_final_plat":33,"gc_median_lot_price":49000,"gc_median_home_price":253750},
+      {"year":2013,"gc_final_plat":41,"bzn_final_plat":395,"gc_median_lot_price":70000,"gc_median_home_price":279500},
+      {"year":2014,"gc_final_plat":187,"bzn_final_plat":255,"gc_median_lot_price":84000,"gc_median_home_price":297250},
+      {"year":2015,"gc_final_plat":223,"bzn_final_plat":469,"gc_median_lot_price":84486,"gc_median_home_price":333000}]
+
+
+    
+      function parseDate(year) {
+        return new Date(year,0,1);
+      }
         
       // CREATE SVG
       var svg = d3.select('#chart').append('svg')
@@ -129,127 +122,128 @@
 
       // find the maximum data value on either side
       //  since this will be shared by both of the x-axes
-      var maxValue = Math.max(
-        d3.max(migrationData, function(d) { return d.from_elsewhere_mt + d.from_outside_mt; }),
-        d3.max(migrationData, function(d) { return d.to_elsewhere_mt + d.to_outside_mt; })
-      );
+      // var maxValue = Math.max(
+      //   d3.max(migrationData, function(d) { return d.from_elsewhere_mt + d.from_outside_mt; }),
+      //   d3.max(migrationData, function(d) { return d.to_elsewhere_mt + d.to_outside_mt; })
+      // );
+
+      var homeLine = d3.svg.line()
+        .x(function(d) { return xScale(parseDate(d.year)); })
+        .y(function(d) { return yScalePrice(d.gc_median_home_price); });
+
+      var lotLine = d3.svg.line()
+        .x(function(d) { return xScale(parseDate(d.year)); })
+        .y(function(d) { return yScalePrice(d.gc_median_lot_price); });
+
+      var yearRange = d3.extent(devData, function(d){ return parseDate(d.year); });
+      console.log(yearRange);
+
+      var maxPrice = d3.max(devData, function(d){ return d.gc_median_home_price; });
+      var maxPlat = d3.max(devData, function(d){ return d.gc_final_plat + d.bzn_final_plat; });
+      maxPlat = 2000;
+      maxPrice = 400000;
 
       // SET UP SCALES
-        
-      // the xScale goes from 0 to the width of a region
-      //  it will be reversed for the left x-axis
-      var xScale = d3.scale.linear()
-        .domain([0, maxValue])
-        .range([0, regionWidth])
+      var xScale = d3.time.scale()
+        .domain(yearRange)
+        .range([0, w - 30])
         .nice();
 
-      var xScaleLeft = d3.scale.linear()
-        .domain([0, maxValue])
-        .range([regionWidth, 0]);
+      var yScalePrice = d3.scale.linear()
+        .domain([0, maxPrice])
+        .range([regionHeight, 0]);
 
-      var xScaleRight = d3.scale.linear()
-        .domain([0, maxValue])
-        .range([0, regionWidth]);
-
-      var yScale = d3.scale.ordinal()
-        .domain(migrationData.map(function(d) { return d.bracket; }))
-        .rangeRoundBands([h,0], 0.1);
-
+      var yScalePlat = d3.scale.linear()
+        .domain([0, maxPlat])
+        .range([regionHeight, 0]);
 
       // SET UP AXES
-      var yAxisLeft = d3.svg.axis()
-        .scale(yScale)
-        .orient('right')
-        .tickSize(4,0)
-        .tickPadding(margin.middle-4);
-
-      var yAxisRight = d3.svg.axis()
-        .scale(yScale)
-        .orient('left')
-        .tickSize(4,0)
-        .tickFormat('');
-
-      var xAxisRight = d3.svg.axis()
+      var xAxis = d3.svg.axis()
         .scale(xScale)
-        .orient('bottom')
-        .innerTickSize(h + 15)
-        .ticks(5);
-        // .tickFormat(d3.format('%'));
+        .orient('bottom');
 
-      var xAxisLeft = d3.svg.axis()
-        // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
-        .scale(xScale.copy().range([pointA, 0]))
-        .orient('bottom')
-        .innerTickSize(h + 15)
-        .ticks(5);
-        // .tickFormat(d3.format('%'));
+      var yAxisTop = d3.svg.axis()
+        .scale(yScalePrice)
+        .orient('left');
+
+      var yAxisBot = d3.svg.axis()
+        .scale(yScalePlat)
+        .orient('left');
+
+
+      // MAKE GROUPS FOR EACH SIDE OF CHART & EACH FLOW
+      // Top chart
+      var topChart = svg.append('g')
+        .attr('transform', translation(35,0))
+
+      // Bottom chart
+      var botChart = svg.append('g')
+        .attr('transform', translation(35,pointA + margin.middle))
 
       // DRAW AXES
-      svg.append('g')
-        .attr('class', 'axis y left')
-        .attr('transform', translation(pointA, 0))
-        .call(yAxisLeft)
+      topChart.append('g')
+        .attr('class', 'axis x left')
+        .attr('transform', translation(0, pointA))
+        .call(xAxis)
         .selectAll('text')
         .style('text-anchor', 'middle');
 
-      svg.append('g')
+      topChart.append('g')
+        .attr('class', 'axis y top')
+        .attr('transform', translation(0, 0))
+        .call(yAxisTop);
+
+      botChart.append('g')
+        .attr('class', 'axis y bottom')
+        .attr('transform', translation(0,0))
+        .call(yAxisBot);
+
+      botChart.append('g')
+        topChart.append('g')
         .attr('class', 'axis x left')
-        .attr('transform', translation(0, -20))
-        .call(xAxisLeft);
+        .attr('transform', translation(0, 2 * regionHeight + margin.middle))
+        .call(xAxis)
+        .selectAll('text')
+        .style('text-anchor', 'middle');
 
-      svg.append('g')
-        .attr('class', 'axis x right')
-        .attr('transform', translation(pointB, -20))
-        .call(xAxisRight);
 
-      // MAKE GROUPS FOR EACH SIDE OF CHART & EACH FLOW
-      // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
-      var leftBarGroup = svg.append('g')
-        .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
-      var leftBarMtGroup = leftBarGroup.append('g');
-      var leftBarOthGroup = leftBarGroup.append('g');
+      // DRAW LINE CHART
 
-      var rightBarGroup = svg.append('g')
-        .attr('transform', translation(pointB, 0));
-      var rightBarMtGroup = rightBarGroup.append('g');
-      var rightBarOthGroup = rightBarGroup.append('g');
+      topChart.append('path')
+        .attr("class","line lot")
+        .datum(devData)
+        .attr("d", lotLine);
 
-      // DRAW BARS
-      leftBarMtGroup.selectAll('.bar.left')
-        .data(migrationData)
-        .enter().append('rect')
-          .attr('class', 'bar inflow-mt')
-          .attr('x', 0)
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.from_elsewhere_mt); })
-          .attr('height', yScale.rangeBand());
+      topChart.append('path')
+        .attr("class", "line home")
+        .datum(devData)
+        .attr("d", homeLine);
 
-      leftBarOthGroup.selectAll('.bar.left')
-        .data(migrationData)
-        .enter().append('rect')
-          .attr('class', 'bar inflow-not-mt')
-          .attr('x', function(d) { return xScale(d.from_elsewhere_mt); })
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.from_outside_mt); })
-          .attr('height', yScale.rangeBand());
+      // DRAW BAR CHART
 
-      rightBarMtGroup.selectAll('.bar.right')
-        .data(migrationData)
-        .enter().append('rect')
-          .attr('class', 'bar outflow-mt')
-          .attr('x', 0)
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.to_elsewhere_mt); })
-          .attr('height', yScale.rangeBand());
+      botChart.append("g")
+        .selectAll("bar")
+        .data(devData).enter()
+        .append("rect")
+        .attr({
+          class: 'bar bzn',
+          x: function(d) { return xScale(parseDate(d.year)) - barWidth / 2; },
+          y: function(d) { return yScalePlat(d.bzn_final_plat); },
+          width: barWidth,
+          height: function(d) { return regionHeight - yScalePlat(d.bzn_final_plat) }
+        });
 
-      rightBarOthGroup.selectAll('.bar.right')
-        .data(migrationData)
-        .enter().append('rect')
-          .attr('class', 'bar outflow-not-mt')
-          .attr('x', function(d) { return xScale(d.to_elsewhere_mt); })
-          .attr('y', function(d) { return yScale(d.bracket); })
-          .attr('width', function(d) { return xScale(d.to_outside_mt); })
-          .attr('height', yScale.rangeBand());
+      botChart.append("g")
+        .selectAll("bar")
+        .data(devData).enter()
+        .append("rect")
+        .attr({
+          class: 'bar gc',
+          x: function(d) { return xScale(parseDate(d.year)) - barWidth / 2; },
+          y: function(d) { return yScalePlat(d.bzn_final_plat + d.gc_final_plat); },
+          width: barWidth,
+          height: function(d) { return regionHeight - yScalePlat(d.gc_final_plat)}
+        });
 
       // DRAW TITLE AND ANNOTATIONS
       d3.select('#chart').append('div')
@@ -260,166 +254,129 @@
           width: '600px'
         })
         .append("p")
-        .text("Annual migration to/from Gallatin County by age bracket")
+        .text("Bozeman-area home prices have rebounded from the Great Recession, but the creation of new, building-ready lots has not")
         .attr("class","title");
 
       d3.select('#chart').append('div')
         .style({
           position: 'absolute',
-          left: '30px',
-          top: '32px',
-          width: '300px'
+          left: '75px',
+          top: '75px',
+          width: '100px'
         })
         .append("p")
-        .text("Number of inbound movers (9,900 total)")
+        .text("Countywide median price for single-family homes")
         .attr("class","label");
+      svg.append('line')
+          .attr({
+            x1: 100,
+            y1: 60,
+            x2: 120,
+            y2: 70,
+            class: 'annotation-line'
+          });
 
       d3.select('#chart').append('div')
         .style({
           position: 'absolute',
-          left: '355px',
-          top: '32px',
-          width: '300px'
+          left: '75px',
+          top: '190px',
+          width: '100px'
         })
         .append("p")
-        .text("Number of outbound movers (6,000 total)")
+        .text("Countywide median price for lots <1 acre")
         .attr("class","label");
-
-      // ANNOTATIONS
-      d3.select('#chart').append('div')
-        .style({
-          position: 'absolute',
-          left: '30px',
-          top: '150px',
-          width: '140px'
-        })
-        .append("p")
-        .text("1) Most Bozeman immigrants are college-aged or in their early 20s")
-        .attr("class","annotation");
       svg.append('line')
-        .attr({
-          x1: 40,
-          y1: 150,
-          x2: 80,
-          y2: 250,
-          class: 'annotation-line'
-        });
+          .attr({
+            x1: 80,
+            y1: 170,
+            x2: 100,
+            y2: 180,
+            class: 'annotation-line'
+          });
+
 
       d3.select('#chart').append('div')
         .style({
           position: 'absolute',
-          left: '450px',
-          top: '200px',
-          width: '110px'
-        })
-        .append("p")
-        .text("2) And many out-movers are slightly older, college grad age")
-        .attr("class","annotation");
-      svg.append('line')
-        .attr({
-          x1: 465,
-          y1: 200,
-          x2: 480,
-          y2: 250,
-          class: 'annotation-line'
-        });
-
-      d3.select('#chart').append('div')
-        .style({
-          position: 'absolute',
-          left: '470px',
+          left: '75px',
           top: '360px',
-          width: '160px'
+          width: '50px'
         })
         .append("p")
-        .text("3) But inflow and outflow are roughly balanced in older age groups")
-        .attr("class","annotation");
+        .text("New lots in county")
+        .attr("class","label");
       svg.append('line')
-        .attr({
-          x1: 435,
-          y1: 300,
-          x2: 350,
-          y2: 150,
-          class: 'annotation-line'
-        });
+          .attr({
+            x1: 100,
+            y1: 315,
+            x2: 160,
+            y2: 315,
+            class: 'annotation-line'
+          });
 
       d3.select('#chart').append('div')
         .style({
           position: 'absolute',
-          left: '28px',
-          top: '440px',
-          width: '600px'
+          left: '75px',
+          top: '435px',
+          width: '50px'
         })
         .append("p")
-        .text("Source: U.S. Census Bureau, 2010-14 American Community Survey 5-year estimates")
-        .attr("class","note");
+        .text("New lots in city")
+        .attr("class","label");
+      svg.append('line')
+          .attr({
+            x1: 100,
+            y1: 390,
+            x2: 160,
+            y2: 390,
+            class: 'annotation-line'
+          });
 
-      // Legend
-      
-      var svgPresentLegend = svg.append("g")
-        .attr("transform", "translate(0,0)");
-      svgPresentLegend.append("rect")
-        .attr({
-          x: 0,
-          y: 0,
-          width: 10,
-          height: 10,
-          class: 'inflow-not-mt' 
-        });
-      svgPresentLegend.append("text")
-        .text("Movers from outside Montana")
-        .attr({
-          x: 13,
-          y: 9,
-          class: "annotation"
-        });
-      svgPresentLegend.append("rect")
-      .attr({
-        x: 0,
-        y: 15,
-        width: 10,
-        height: 10,
-        class: 'inflow-mt' 
-        });
-      svgPresentLegend.append("text")
-        .text("Movers from inside Montana")
-        .attr({
-          x: 13,
-          y: 24,
-          class: "annotation"
-        });
 
-      svgPresentLegend.append("rect")
-      .attr({
-        x: 0,
-        y: 30,
-        width: 10,
-        height: 10,
-        class: 'outflow-mt' 
-      });
-      svgPresentLegend.append("text")
-        .text("Movers to other Montana counties")
-        .attr({
-          x: 13,
-          y: 39,
-          class: "annotation"
-      });
-      svgPresentLegend.append("rect")
-      .attr({
-        x: 0,
-        y: 45,
-        width: 10,
-        height: 10,
-        class: 'outflow-not-mt' 
-      });
-      svgPresentLegend.append("text")
-        .text("Movers to other states")
-        .attr({
-          x: 13,
-          y: 54,
-          class: "annotation"
-      });
+      d3.select('#chart').append('div')
+        .style({
+          position: 'absolute',
+          left: '100px',
+          top: '515px',
+          width: '100px'
+        })
+        .append("p")
+        .text("(No data)")
+        .attr("class","label");
 
+      drawPtLabel('$310K', 178, 32);
+      drawPtLabel('$80K', 178, 158);
+      drawPtLabel('1,730 total final plat lots produced', 178, 262);
+
+      drawPtLabel('$238K', 415, 71);
+      drawPtLabel('$52K', 415, 172);
+      drawPtLabel('23', 415, 450);
+
+      drawPtLabel('$333K', 604, 20);
+      drawPtLabel('$84K', 604, 155);
+      drawPtLabel('692', 604, 376);
+
+      // Helper function for drawing point labels
+      function drawPtLabel(text, x, y) {
+        svg.append('text')
+        .text(text)
+        .attr({
+          x: x,
+          y: y,
+          'text-anchor': 'middle',
+          class: 'annotation'
+        });
+        svg.append('line')
+          .attr({
+            x1: x,
+            y1: y + 5,
+            x2: x,
+            y2: y + 15,
+            class: 'annotation-line'
+          });
+      }
 
       // concatenation for translations
       function translation(x,y) {

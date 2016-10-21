@@ -49,7 +49,8 @@ include_geos = ['30031', # Gallatin
                 '30013', # Cascade
                 '30063', # Missoula
                 '30111', # Yellowstone
-                '30029'  # Flathead
+                '30029',  # Flathead
+                '41017' # Deschutes County, OR (Bend)
                 ]
 
 # LOAD DATA & KEYS INTO MEMORY

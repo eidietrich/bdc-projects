@@ -130,5 +130,27 @@
 {"bracket":"70 - 74","tot_pop":3477,"from_in_state":18,"from_out_state":21,"to_in_state":30,"to_out_state":118},
 {"bracket":"75+","tot_pop":6063,"from_in_state":74,"from_out_state":177,"to_in_state":59,"to_out_state":167}
 ]
+},
+"county_6": { 
+"title": "Deschutes County, Oregon",
+"fips": "41017",
+"label": "THIS IS FILLER",
+"brackets": [
+{"bracket":"1 - 4","tot_pop":7590,"from_in_state":187,"from_out_state":272,"to_in_state":329,"to_out_state":408},
+{"bracket":"5 - 17","tot_pop":27027,"from_in_state":656,"from_out_state":682,"to_in_state":630,"to_out_state":956},
+{"bracket":"18 & 19","tot_pop":3319,"from_in_state":103,"from_out_state":137,"to_in_state":503,"to_out_state":326},
+{"bracket":"20 - 24","tot_pop":8481,"from_in_state":485,"from_out_state":769,"to_in_state":880,"to_out_state":618},
+{"bracket":"25 - 29","tot_pop":9819,"from_in_state":550,"from_out_state":690,"to_in_state":489,"to_out_state":659},
+{"bracket":"30 - 34","tot_pop":10421,"from_in_state":427,"from_out_state":670,"to_in_state":248,"to_out_state":480},
+{"bracket":"35 - 39","tot_pop":10060,"from_in_state":300,"from_out_state":280,"to_in_state":329,"to_out_state":304},
+{"bracket":"40 - 44","tot_pop":11188,"from_in_state":220,"from_out_state":318,"to_in_state":234,"to_out_state":454},
+{"bracket":"45 - 49","tot_pop":10728,"from_in_state":268,"from_out_state":267,"to_in_state":185,"to_out_state":286},
+{"bracket":"50 - 54","tot_pop":11749,"from_in_state":276,"from_out_state":315,"to_in_state":271,"to_out_state":299},
+{"bracket":"55 - 59","tot_pop":12437,"from_in_state":195,"from_out_state":514,"to_in_state":160,"to_out_state":229},
+{"bracket":"60 - 64","tot_pop":11691,"from_in_state":314,"from_out_state":399,"to_in_state":189,"to_out_state":226},
+{"bracket":"65 - 69","tot_pop":9321,"from_in_state":140,"from_out_state":363,"to_in_state":151,"to_out_state":143},
+{"bracket":"70 - 74","tot_pop":7194,"from_in_state":81,"from_out_state":91,"to_in_state":163,"to_out_state":73},
+{"bracket":"75+","tot_pop":10531,"from_in_state":115,"from_out_state":278,"to_in_state":207,"to_out_state":152}
+]
 }
 }
